@@ -86,10 +86,7 @@ def get_current_geolocation() -> Dict[str, Any]:
         return {"error": "An unexpected error occurred", "details": str(e)}
 
 
-@mcp.get("/health")
-async def health_check() -> Dict[str, str]:
-    """Health check endpoint for monitoring"""
-    return {"status": "healthy", "service": "geolocation-mcp"}
+# Health checks are handled by the MCP server itself
 
 
 if __name__ == "__main__":
@@ -100,10 +97,11 @@ if __name__ == "__main__":
     
     logger.info(f"Starting MCP server on {host}:{port}")
     
+    # Run the FastMCP server with SSE transport
     asyncio.run(
         mcp.run_sse_async(
-            host=host,
+            host="0.0.0.0",  # Changed from 127.0.0.1 to allow external connections
             port=port,
-            log_level=log_level
+            log_level="debug"
         )
     )

@@ -4,7 +4,6 @@ services:
     runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: python remote_mcp.py
-    healthCheckPath: /health
     envVars:
       - key: LOG_LEVEL
         value: INFO
