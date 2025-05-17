@@ -101,6 +101,7 @@ if __name__ == "__main__":
     # Run the FastMCP server with SSE transport
     asyncio.run(
         mcp.run_sse_async(
+            host="0.0.0.0",  # Changed from 127.0.0.1 to allow external connections
             port=port,
             log_level="debug"
         )
