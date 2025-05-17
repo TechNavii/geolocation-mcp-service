@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: tokyo-time-mcp
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python time_mcp.py
+    envVars:
+      - key: LOG_LEVEL
+        value: INFO
+      - key: PORT
+        value: 8000
