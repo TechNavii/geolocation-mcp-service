@@ -1,66 +1,56 @@
-# Space Invaders Reimagined
+# Geolocation MCP Service
 
-A modern take on the classic Space Invaders game using Python and Pygame. This version features neon aesthetics, procedural animation, and particle effects - all generated entirely in code without external assets.
+A simple MCP (Model Context Protocol) server that provides geolocation information based on the server's public IP address.
 
 ## Features
 
-- **Pure Code Generation**: All graphics are drawn with Pygame shapes - no external sprites or images
-- **Neon Visual Style**: Vibrant color palette (#FF3CAC, #2E3192, #4BCBFC, #F9F871)
-- **Parallax Starfield**: Dynamic star background with depth-based movement
-- **Particle Effects**: Explosions, impacts, and other visual flourishes
-- **Procedural Animation**: Smooth, varied movements for all game elements
-- **Screen Shake**: Adds impact when the player gets hit
-- **Increasing Difficulty**: Aliens speed up as their numbers decrease
-- **Level Progression**: With escalating challenges
+- Returns current geolocation (city, region, country, latitude, longitude)
+- Built with FastMCP
+- Ready to deploy on Render
+- Health check endpoint for monitoring
+- Rate limiting and timeout configuration
 
-## Requirements
+## Deployment on Render
 
-- Python 3.x
-- Pygame
+1. Fork or push this code to your GitHub repository
+2. Connect your GitHub account to Render
+3. Create a new Web Service on Render
+4. Connect it to your repository
+5. Render will automatically detect the `render.yaml` file and configure the deployment
+6. The service will be deployed with Python runtime
 
-## Installation
+## Environment Variables
 
-1. Ensure you have Python 3.x installed
-2. Install Pygame:
+Configure these in your Render dashboard or `render.yaml`:
+
+- `LOG_LEVEL`: Logging level (default: INFO)
+- `REQUEST_TIMEOUT`: API request timeout in seconds (default: 10)
+- `RATE_LIMIT_DELAY`: Delay between API requests in seconds (default: 1.0)
+- `GEOLOCATION_API_URL`: Geolocation API endpoint (default: http://ip-api.com/json/)
+- `PORT`: Server port (default: 8000)
+- `HOST`: Server host (default: 0.0.0.0)
+
+## Usage
+
+Once deployed, your MCP server will be available at your Render service URL. The server exposes:
+
+- MCP tool: `get_current_geolocation()` - Returns geolocation information
+- Health endpoint: `/health` - For service monitoring
+
+## Local Development
+
+1. Install dependencies:
    ```bash
-   pip install pygame
+   pip install -r requirements.txt
    ```
-3. Clone or download this repository
 
-## How to Play
+2. Run the server:
+   ```bash
+   python remote_mcp.py
+   ```
 
-Run the game with:
+The server will start on `http://localhost:8000` by default.
 
-```bash
-python main.py
-```
+## Claude App Integration
 
-### Controls
-
-- **←** or **A**: Move left
-- **→** or **D**: Move right
-- **SPACE**: Shoot (in game) / Start (menu) / Resume (pause)
-- **ESC**: Pause (in game) / Quit (menu/pause)
-
-## Game Structure
-
-The code is organized into modular components:
-
-- `main.py`: Core game loop and state management
-- `constants.py`: Game constants and configuration
-- `entities/`
-  - `player.py`: Player ship and controls
-  - `aliens.py`: Alien enemies and fleet management
-  - `projectiles.py`: Lasers and projectiles
-- `utils/`
-  - `particles.py`: Particle system for effects
-  - `starfield.py`: Background starfield with parallax
-
-## Implementation Details
-
-- All graphics are procedurally drawn using pygame.draw.*
-- No external assets (images, sounds, fonts) are used
-- Ship and alien designs use basic shapes with glow effects
-- Animation uses mathematical easing functions
-- Collision detection uses pygame.Rect for efficiency
-# test_remote_agent
+Once deployed on Render, you can add your MCP service to Claude App by providing the service URL.

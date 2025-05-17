@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: geolocation-mcp
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python remote_mcp.py
+    healthCheckPath: /health
+    envVars:
+      - key: LOG_LEVEL
+        value: INFO
+      - key: REQUEST_TIMEOUT
+        value: "10"
+      - key: RATE_LIMIT_DELAY
+        value: "1.0"
+      - key: GEOLOCATION_API_URL
+        value: http://ip-api.com/json/
+    autoDeploy: true  # Automatically deploy when you push to the repo
